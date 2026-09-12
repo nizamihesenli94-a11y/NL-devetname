@@ -3,19 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toy Dəvətnaməsi — Nizami & Lətifə</title>
-    <!-- Modern & Estetik Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>Toy Dəvətnaməsi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg-color: #f7f4ef;       /* Bej fon */
+            --primary-color: #7d6342;
+            --accent-color: #c5a059;
+            --bg-color: #faf8f5;
+            --text-color: #4a4a4a;
             --card-bg: #ffffff;
-            --envelope-bg: #eae3d2;   /* Bej zərf */
-            --gold-primary: #c5a059;  /* Mat Qızılı */
-            --gold-hover: #b08b46;
-            --text-dark: #333333;
-            --text-muted: #777777;
-            --border-color: #e8e2d5;
         }
 
         * {
@@ -25,562 +22,270 @@
         }
 
         body {
-            background-color: var(--bg-color);
             font-family: 'Montserrat', sans-serif;
-            color: var(--text-dark);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            overflow-x: hidden;
+            padding: 20px 10px;
         }
 
-        /* ZƏRF VƏ MÖHÜR EKRANI */
-        #envelope-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
+        .invitation-card {
+            background-color: var(--card-bg);
+            max-width: 500px;
             width: 100%;
-            height: 100%;
-            background-color: var(--bg-color);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.8s ease, visibility 0.8s;
-        }
-
-        .envelope {
-            width: 300px;
-            height: 210px;
-            background-color: var(--envelope-bg);
-            border-radius: 6px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.06);
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border: 1px solid var(--border-color);
-        }
-
-        .seal-btn {
-            width: 75px;
-            height: 75px;
-            background: linear-gradient(135deg, #d4af37 0%, #aa7c11 100%);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #ffffff;
-            font-size: 20px;
-            box-shadow: 0 6px 15px rgba(197, 160, 89, 0.4);
-            cursor: pointer;
-            border: 2px solid #ffffff;
-            transition: transform 0.3s ease;
-        }
-
-        .seal-btn:hover {
-            transform: scale(1.08);
-        }
-
-        .tap-text {
-            margin-top: 25px;
-            font-size: 13px;
-            color: var(--gold-primary);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-weight: 500;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 0.5; }
-            50% { opacity: 1; }
-            100% { opacity: 0.5; }
-        }
-
-        /* ƏSAS DƏVƏTNAMƏ KARTOCASI */
-        #main-card {
-            display: none;
-            width: 100%;
-            max-width: 520px;
-            background: var(--card-bg);
-            padding: 55px 35px;
-            margin: 20px;
-            border-radius: 8px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.04);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(197, 160, 89, 0.2);
+            padding: 40px 25px;
             text-align: center;
-            border: 1px solid var(--border-color);
-            opacity: 0;
-            transition: opacity 1.2s ease;
             position: relative;
             overflow: hidden;
         }
 
-        /* QIZILI YARPAQ NAXIŞLARI (ÇƏRÇİVƏ KÖLGƏSİ) */
-        .gold-corner {
+        .invitation-card::before {
+            content: '';
             position: absolute;
-            width: 90px;
-            height: 90px;
-            background-repeat: no-repeat;
-            background-size: contain;
-            opacity: 0.35;
-            pointer-events: none;
+            top: 0; left: 0; right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #c5a059, #e8d5b5, #c5a059);
         }
 
-        .corner-top-left {
-            top: 10px;
-            left: 10px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23c5a059' d='M10,10 C30,10 50,20 60,40 C50,25 30,15 10,10 Z M10,10 C10,30 20,50 40,60 C25,50 15,30 10,10 Z M25,25 C40,20 55,30 65,50 C50,40 35,35 25,25 Z M25,25 C20,40 30,55 50,65 C40,50 35,35 25,25 Z'/%3E%3Ccircle cx='10' cy='10' r='3' fill='%23c5a059'/%3E%3C/svg%3E");
-        }
-
-        .corner-top-right {
-            top: 10px;
-            right: 10px;
-            transform: scaleX(-1);
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23c5a059' d='M10,10 C30,10 50,20 60,40 C50,25 30,15 10,10 Z M10,10 C10,30 20,50 40,60 C25,50 15,30 10,10 Z M25,25 C40,20 55,30 65,50 C50,40 35,35 25,25 Z M25,25 C20,40 30,55 50,65 C40,50 35,35 25,25 Z'/%3E%3Ccircle cx='10' cy='10' r='3' fill='%23c5a059'/%3E%3C/svg%3E");
-        }
-
-        .corner-bottom-left {
-            bottom: 10px;
-            left: 10px;
-            transform: scaleY(-1);
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23c5a059' d='M10,10 C30,10 50,20 60,40 C50,25 30,15 10,10 Z M10,10 C10,30 20,50 40,60 C25,50 15,30 10,10 Z M25,25 C40,20 55,30 65,50 C50,40 35,35 25,25 Z M25,25 C20,40 30,55 50,65 C40,50 35,35 25,25 Z'/%3E%3Ccircle cx='10' cy='10' r='3' fill='%23c5a059'/%3E%3C/svg%3E");
-        }
-
-        .corner-bottom-right {
-            bottom: 10px;
-            right: 10px;
-            transform: scale(-1, -1);
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23c5a059' d='M10,10 C30,10 50,20 60,40 C50,25 30,15 10,10 Z M10,10 C10,30 20,50 40,60 C25,50 15,30 10,10 Z M25,25 C40,20 55,30 65,50 C50,40 35,35 25,25 Z M25,25 C20,40 30,55 50,65 C40,50 35,35 25,25 Z'/%3E%3Ccircle cx='10' cy='10' r='3' fill='%23c5a059'/%3E%3C/svg%3E");
-        }
-
-        /* QIZILI DAXİLİ ÇƏRÇİVƏ XƏTTİ */
-        .card-inner-border {
-            border: 1px solid rgba(197, 160, 89, 0.3);
-            padding: 25px 15px;
-            border-radius: 4px;
-        }
-
-        .header-date {
-            font-size: 18px;
-            letter-spacing: 4px;
-            color: var(--gold-primary);
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .sub-title {
-            font-size: 11px;
-            letter-spacing: 3px;
+        .subtitle {
             text-transform: uppercase;
-            color: var(--gold-primary);
-            font-weight: 600;
-            margin-bottom: 10px;
+            letter-spacing: 3px;
+            font-size: 0.85rem;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            font-weight: 500;
         }
 
-        /* QIZILI RƏNGDƏ BAŞLIQLAR VƏ ADLAR */
-        .names {
+        /* Bəy və Gəlin adlarının ölçüsü böyüdüldü */
+        .couple-names {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.8rem;
+            color: var(--primary-color);
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .invitation-text {
             font-family: 'Playfair Display', serif;
-            font-size: 38px;
-            font-weight: 600;
-            color: var(--gold-primary);
-            margin: 10px 0 20px 0;
-            letter-spacing: 1px;
-            text-shadow: 0 1px 2px rgba(197, 160, 89, 0.15);
-        }
-
-        .description {
-            font-size: 14px;
-            line-height: 1.7;
-            color: var(--text-muted);
-            font-weight: 300;
-            margin-bottom: 25px;
-        }
-
-        .section {
-            margin: 35px 0;
-            padding-top: 30px;
-            border-top: 1px solid var(--border-color);
+            font-style: italic;
+            font-size: 1.05rem;
+            margin-bottom: 30px;
+            color: #666;
         }
 
         .section-title {
             font-family: 'Playfair Display', serif;
-            font-size: 22px;
-            color: var(--gold-primary);
-            margin-bottom: 20px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-        }
-
-        /* GERİSAYIM */
-        .countdown {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-top: 15px;
-        }
-
-        .time-box {
-            background: var(--bg-color);
-            padding: 12px 8px;
-            border-radius: 6px;
-            min-width: 65px;
-            border: 1px solid var(--border-color);
-        }
-
-        .time-box span {
-            display: block;
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--gold-primary);
-        }
-
-        .time-box label {
-            font-size: 10px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* TOY PROQRAMI */
-        .program-list {
-            text-align: left;
-            max-width: 320px;
-            margin: 0 auto;
-        }
-
-        .program-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .program-time {
-            font-weight: 600;
-            color: var(--gold-primary);
-            font-size: 13px;
-            width: 70px;
-            border-right: 2px solid var(--gold-primary);
-            padding-right: 10px;
-        }
-
-        .program-desc {
-            font-size: 13px;
-            color: var(--text-dark);
-            padding-left: 15px;
-        }
-
-        /* DÜYMƏLƏR VƏ XƏRİTƏ */
-        .btn-group {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-top: 15px;
-        }
-
-        .btn {
+            font-size: 1.25rem;
+            color: var(--primary-color);
+            margin: 25px 0 15px;
+            position: relative;
             display: inline-block;
-            background-color: var(--gold-primary);
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 4px;
-            font-size: 12px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            border: none;
-            cursor: pointer;
-            transition: background 0.3s;
-            font-weight: 500;
         }
 
-        .btn:hover {
-            background-color: var(--gold-hover);
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 1px;
+            background-color: var(--accent-color);
+            margin: 5px auto 0;
         }
 
-        .btn-outline {
-            background-color: transparent;
-            color: var(--gold-primary);
-            border: 1px solid var(--gold-primary);
-        }
-
-        .btn-outline:hover {
-            background-color: var(--gold-primary);
-            color: white;
-        }
-
-        /* RSVP SEÇİMLƏRİ VƏ FORM */
-        .rsvp-options {
+        /* Geyim Kodları (Dress Code) */
+        .dress-code-container {
             display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 15px;
+            justify-content: space-around;
+            gap: 15px;
+            margin-bottom: 25px;
         }
 
-        .rsvp-btn {
+        .dress-code-card {
             flex: 1;
-            padding: 10px;
-            border: 1px solid var(--border-color);
-            background: var(--bg-color);
-            color: var(--text-dark);
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 12px;
-            font-family: inherit;
-            transition: all 0.3s;
+            background: #fdfbf7;
+            border: 1px solid rgba(197, 160, 89, 0.2);
+            border-radius: 12px;
+            padding: 15px 10px;
         }
 
-        .rsvp-btn.active {
-            background: var(--gold-primary);
-            color: white;
-            border-color: var(--gold-primary);
+        .dress-code-icon {
+            font-size: 1.8rem;
+            color: var(--accent-color);
+            margin-bottom: 8px;
         }
 
-        input, select, textarea {
+        .dress-code-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 4px;
+        }
+
+        .dress-code-desc {
+            font-size: 0.85rem;
+            color: #555;
+        }
+
+        /* Form Elementləri */
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+
+        .form-group input, 
+        .form-group select, 
+        .form-group textarea {
             width: 100%;
-            padding: 10px 12px;
-            margin: 6px 0;
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
             font-family: inherit;
-            font-size: 13px;
+            font-size: 0.95rem;
             background-color: #fafafa;
         }
 
-        input:focus, select:focus, textarea:focus {
+        .form-group input:focus, 
+        .form-group select:focus, 
+        .form-group textarea:focus {
             outline: none;
-            border-color: var(--gold-primary);
+            border-color: var(--accent-color);
+            background-color: #fff;
         }
 
-        .wishes-list {
+        /* WhatsApp Düyməsi */
+        .btn-whatsapp {
+            width: 100%;
+            background-color: #25D366;
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.25);
             margin-top: 20px;
-            text-align: left;
-            max-height: 180px;
-            overflow-y: auto;
         }
 
-        .wish-item {
-            background: var(--bg-color);
-            padding: 12px;
-            border-radius: 4px;
-            margin-bottom: 10px;
-            font-size: 12px;
-            border-left: 2px solid var(--gold-primary);
-        }
-
-        .wish-item strong {
-            color: var(--gold-primary);
-            display: block;
-            margin-bottom: 3px;
+        .btn-whatsapp:hover {
+            background-color: #1eb956;
         }
     </style>
 </head>
 <body>
 
-    <!-- Musiqi: Bensound - Angels By My Side -->
-    <audio id="bg-music" loop preload="auto">
-        <source src="music.mp3" type="audio/mpeg">
-    </audio>
+    <div class="invitation-card">
+        <div class="subtitle">Birlikdə Yeni Bir Başlanğıca</div>
+        
+        <h1 class="couple-names">Əli & Aysel</h1>
+        
+        <p class="invitation-text">
+            Sizi bu xüsusi və xoş günümüzdə yanımızda görməkdən şad olarıq.
+        </p>
 
-    <!-- ZƏRF EKRANI -->
-    <div id="envelope-screen">
-        <div class="envelope">
-            <div class="seal-btn" onclick="openInvitation()">N & L</div>
-        </div>
-        <div class="tap-text">Açmaq üçün toxunun</div>
-    </div>
-
-    <!-- DƏVƏTNAMƏ İÇƏRİYİ -->
-    <div id="main-card">
-        <!-- QIZILI BOTANİK KÖLGƏ / NAXIŞLAR -->
-        <div class="gold-corner corner-top-left"></div>
-        <div class="gold-corner corner-top-right"></div>
-        <div class="gold-corner corner-bottom-left"></div>
-        <div class="gold-corner corner-bottom-right"></div>
-
-        <div class="card-inner-border">
-            <div class="header-date">10.10.2026</div>
-            <div class="sub-title">Xoş gəldiniz</div>
-            <div class="names">Nizami & Lətifə</div>
-            <p class="description">
-                Həyatımızın ən xüsusi və unudulmaz gününü siz dəyərli doğmalarımız və dostlarımızla bölüşməkdən böyük xoşbəxtlik duyarıq.
-            </p>
-
-            <!-- GERİSAYIM -->
-            <div class="section">
-                <div class="sub-title">Toya qalan vaxt</div>
-                <div class="countdown">
-                    <div class="time-box"><span id="days">00</span><label>Gün</label></div>
-                    <div class="time-box"><span id="hours">00</span><label>Saat</label></div>
-                    <div class="time-box"><span id="minutes">00</span><label>Dəqiqə</label></div>
-                    <div class="time-box"><span id="seconds">00</span><label>Saniyə</label></div>
+        <!-- Dress Code -->
+        <div class="section-title">Geyim Kodu (Dress Code)</div>
+        <div class="dress-code-container">
+            <div class="dress-code-card">
+                <div class="dress-code-icon">
+                    <i class="fa-solid fa-user-tie"></i>
                 </div>
+                <div class="dress-code-title">Kişilər Üçün</div>
+                <div class="dress-code-desc">Kostyum & Smoking</div>
             </div>
-
-            <!-- TOY PROQRAMI -->
-            <div class="section">
-                <div class="section-title">Toy Proqramı</div>
-                <div class="program-list">
-                    <div class="program-item">
-                        <div class="program-time">18:00</div>
-                        <div class="program-desc">Qonaqların qarşılanması</div>
-                    </div>
-                    <div class="program-item">
-                        <div class="program-time">19:00</div>
-                        <div class="program-desc">Bəy və Gəlinin gəlişi</div>
-                    </div>
-                    <div class="program-item">
-                        <div class="program-time">20:00</div>
-                        <div class="program-desc">Təbrik və Şam yeməyi</div>
-                    </div>
-                    <div class="program-item">
-                        <div class="program-time">22:00</div>
-                        <div class="program-desc">Tort kəsilməsi mərasimi</div>
-                    </div>
-                    <div class="program-item">
-                        <div class="program-time">23:00</div>
-                        <div class="program-desc">Musiqi və Şou proqramı</div>
-                    </div>
+            <div class="dress-code-card">
+                <div class="dress-code-icon">
+                    <i class="fa-solid fa-person-dress"></i>
                 </div>
-            </div>
-
-            <!-- MƏKAN VƏ XƏRİTƏ -->
-            <div class="section">
-                <div class="section-title">Məkan və Tarix</div>
-                <p style="font-weight: 500; font-size: 14px;">10 Oktyabr 2026, Saat 18:00</p>
-                <p style="font-size: 13px; color: var(--text-muted); margin-top: 5px;">Diva Wedding Hall</p>
-                <p style="font-size: 12px; color: var(--text-muted);">Həsən Əliyev küç. 141, Bakı</p>
-                
-                <div class="btn-group">
-                    <a href="https://maps.app.goo.gl/dsJuvUECAsK6DVbp9" target="_blank" class="btn">Google Maps</a>
-                    <a href="https://ul.waze.com/ul?venue_id=32702868.326766537.12365347&overview=yes&utm_campaign=default&utm_source=waze_website&utm_medium=lm_share_location" target="_blank" class="btn btn-outline">Waze Naviqasiya</a>
-                </div>
-            </div>
-
-            <!-- RSVP (GƏLİŞİN TƏSDİQİ) -->
-            <div class="section">
-                <div class="section-title">İştirak Təsdiqi (RSVP)</div>
-                <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 15px;">Lütfən oktyabr ayına qədər iştirak edib-etməyəcəyinizi bildirin.</p>
-                
-                <form id="rsvpForm">
-                    <div class="rsvp-options">
-                        <button type="button" class="rsvp-btn active" onclick="selectAttendance('Gələcəyəm', this)">✓ Gələcəyəm</button>
-                        <button type="button" class="rsvp-btn" onclick="selectAttendance('Gələ bilməyəcəyəm', this)">✕ Gələ bilməyəcəyəm</button>
-                    </div>
-                    <input type="hidden" id="attendanceStatus" value="Gələcəyəm">
-                    
-                    <input type="text" id="rsvpName" placeholder="Adınız və Soyadınız" required>
-                    <select id="guestCount" required>
-                        <option value="" disabled selected>Qonaq sayısı (özünüz daxil)</option>
-                        <option value="1 nəfər">1 nəfər</option>
-                        <option value="2 nəfər">2 nəfər</option>
-                        <option value="3 nəfər">3 nəfər</option>
-                        <option value="4+ nəfər">4 və ya daha çox</option>
-                    </select>
-                    <button type="submit" class="btn" style="width: 100%; margin-top: 10px;">Təsdiq Et</button>
-                </form>
-            </div>
-
-            <!-- ÜRƏK SÖZLƏRİ BÖLMƏSİ -->
-            <div class="section">
-                <div class="section-title">Ürək Sözləriniz</div>
-                <form id="wishForm">
-                    <input type="text" id="guestName" placeholder="Adınız və Soyadınız" required>
-                    <textarea id="guestWish" rows="3" placeholder="Təbrikinizi və xoş arzularınızı bura yaza bilərsiniz..." required></textarea>
-                    <button type="submit" class="btn btn-outline" style="width: 100%; margin-top: 5px;">Təbriki Göndər</button>
-                </form>
-
-                <div class="wishes-list" id="wishesList"></div>
+                <div class="dress-code-title">Qadınlar Üçün</div>
+                <div class="dress-code-desc">Ziyafət Paltarı</div>
             </div>
         </div>
+
+        <!-- Vahid Form -->
+        <div class="section-title">İştirak və Təbrik</div>
+        <form id="rsvpForm">
+            <div class="form-group">
+                <label for="fullName">Ad və Soyadınız</label>
+                <input type="text" id="fullName" placeholder="Ad və soyadınızı daxil edin" required>
+            </div>
+
+            <div class="form-group">
+                <label for="attendance">İştirak Durumunuz</label>
+                <select id="attendance" required>
+                    <option value="" disabled selected>Seçim edin</option>
+                    <option value="Bəli, məmnuniyyətlə iştirak edəcəyəm">Bəli, iştirak edəcəyəm</option>
+                    <option value="Təəssüf ki, iştirak edə bilməyəcəyəm">İştirak edə bilməyəcəyəm</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="guestCount">Qonaq Sayı</label>
+                <select id="guestCount">
+                    <option value="1 nəfər">1 nəfər</option>
+                    <option value="2 nəfər">2 nəfər</option>
+                    <option value="3+ nəfər">3 və ya daha çox nəfər</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="wishes">Arzu və Təbrikləriniz (Könüllü)</label>
+                <textarea id="wishes" rows="3" placeholder="Ürək sözlərinizi buraya yaza bilərsiniz..."></textarea>
+            </div>
+
+            <button type="submit" class="btn-whatsapp">
+                <i class="fa-brands fa-whatsapp"></i>
+                Təsdiqlə və WhatsApp ilə Göndər
+            </button>
+        </form>
     </div>
 
     <script>
-        function openInvitation() {
-            var screen = document.getElementById('envelope-screen');
-            var card = document.getElementById('main-card');
-            var music = document.getElementById('bg-music');
-
-          if (music) {
-            music.play().catch(function(error) {
-                console.log("Musiqi səsləndirilə bilmədi:", error);
-            });
-
-           }
-
-            screen.style.opacity = '0';
-            setTimeout(function() {
-                screen.style.display = 'none';
-                card.style.display = 'block';
-                setTimeout(function() {
-                    card.style.opacity = '1';
-                }, 50);
-            }, 800);
-        }
-
-        // Toy Tarixi: 10 Oktyabr 2026, 18:00
-        var weddingDate = new Date("Oct 10, 2026 18:00:00").getTime();
-
-        var timer = setInterval(function() {
-            var now = new Date().getTime();
-            var distance = weddingDate - now;
-
-            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            document.getElementById("days").innerText = days < 10 ? "0" + days : days;
-            document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
-            document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
-            document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
-
-            if (distance < 0) {
-                clearInterval(timer);
-                document.querySelector(".countdown").innerHTML = "Toy Günü Çatdı!";
-            }
-        }, 1000);
-
-        // RSVP Seçimi
-        function selectAttendance(status, btn) {
-            document.getElementById('attendanceStatus').value = status;
-            var buttons = document.querySelectorAll('.rsvp-btn');
-            buttons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-        }
-
-        // RSVP Göndərilməsi
         document.getElementById('rsvpForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            var status = document.getElementById('attendanceStatus').value;
-            var name = document.getElementById('rsvpName').value;
-            var count = document.getElementById('guestCount').value;
 
-            var phone = "994705612656";
-            var text = "Salam! Mən " + name + ". Toyda " + status + ". Qonaq sayı: " + count + ".";
-            var url = "https://wa.me/" + phone + "?text=" + encodeURIComponent(text);
+            // WhatsApp Nömrənizi buraya daxil edin (məs: 994501234567)
+            const phoneNumber = "994500000000";
 
-            window.open(url, '_blank');
-        });
+            const fullName = document.getElementById('fullName').value;
+            const attendance = document.getElementById('attendance').value;
+            const guestCount = document.getElementById('guestCount').value;
+            const wishes = document.getElementById('wishes').value;
 
-        // Ürək Sözləri Formu
-        document.getElementById('wishForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            var name = document.getElementById('guestName').value;
-            var wish = document.getElementById('guestWish').value;
+            let message = `Salam! Toy dəvətinə cavab və təbrik:%0A%0A`;
+            message += `👤 *Ad Soyad:* ${encodeURIComponent(fullName)}%0A`;
+            message += `📌 *İştirak:* ${encodeURIComponent(attendance)}%0A`;
+            
+            if (attendance.includes("Bəli")) {
+                message += `👥 *Qonaq Sayı:* ${encodeURIComponent(guestCount)}%0A`;
+            }
 
-            var wishesList = document.getElementById('wishesList');
-            var newWish = document.createElement('div');
-            newWish.className = 'wish-item';
-            newWish.innerHTML = '<strong>' + name + '</strong>' + wish;
+            if (wishes.trim() !== "") {
+                message += `✍️ *Arzu və Təbrik:* ${encodeURIComponent(wishes)}%0A`;
+            }
 
-            wishesList.prepend(newWish);
-
-            document.getElementById('guestName').value = '';
-            document.getElementById('guestWish').value = '';
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+            window.open(whatsappUrl, '_blank');
         });
     </script>
 </body>
