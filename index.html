@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toy Dəvətnaməsi | Nijat & Laman</title>
+    <title>Toy Dəvətnaməsi | Nizami & Lətifə</title>
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary-color: #6b4c35;
             --accent-color: #c5a059;
-            --bg-color: #fdfbf7;
+            --bg-color: #f7f4ef;
             --text-color: #4a4a4a;
             --card-bg: #ffffff;
         }
@@ -31,19 +31,132 @@
             align-items: center;
             min-height: 100vh;
             padding: 20px 10px;
+            overflow-x: hidden;
         }
 
+        /* Zərf Ekranı */
+        #envelope-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease, visibility 0.8s;
+        }
+
+        .envelope {
+            width: 300px;
+            height: 200px;
+            background: #e6dfd5;
+            border-radius: 8px;
+            position: relative;
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #d4c8b8;
+        }
+
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 110px solid #d9cebe;
+            transform-origin: top;
+        }
+
+        .wax-seal {
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, #b83232 0%, #801b1b 100%);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #f5e6ab;
+            font-family: 'Great Vibes', cursive;
+            font-size: 2rem;
+            font-weight: bold;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3), inset 0 0 8px rgba(0,0,0,0.4);
+            cursor: pointer;
+            z-index: 10;
+            border: 2px solid #9e2424;
+            transition: transform 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        .wax-seal:hover {
+            transform: scale(1.08);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.04); }
+            100% { transform: scale(1); }
+        }
+
+        .tap-text {
+            margin-top: 25px;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            animation: fadeIn 1.5s infinite alternate;
+            cursor: pointer;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0.5; }
+            to { opacity: 1; }
+        }
+
+        /* Əsas Dəvətnamə Kartı */
         .invitation-card {
             background-color: var(--card-bg);
             max-width: 500px;
             width: 100%;
             border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.07);
-            border: 1px solid rgba(197, 160, 89, 0.25);
-            padding: 40px 25px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(197, 160, 89, 0.3);
+            padding: 50px 30px;
             text-align: center;
             position: relative;
             overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        /* Yarpaq / Botanik Bəzəklər */
+        .leaf-decoration {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            opacity: 0.15;
+            pointer-events: none;
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        .leaf-top-left {
+            top: -10px;
+            left: -10px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%236b4c35" d="M10,90 Q50,10 90,10 Q50,50 10,90 Z"/></svg>');
+        }
+
+        .leaf-bottom-right {
+            bottom: -10px;
+            right: -10px;
+            transform: rotate(180deg);
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%236b4c35" d="M10,90 Q50,10 90,10 Q50,50 10,90 Z"/></svg>');
         }
 
         .invitation-card::before {
@@ -63,14 +176,12 @@
             font-weight: 600;
         }
 
-        /* Bəy və Gəlin Adları - Böyüdülmüş ölçü */
         .couple-names {
             font-family: 'Great Vibes', cursive;
             font-size: 4rem;
             color: var(--primary-color);
             line-height: 1.1;
             margin-bottom: 20px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.03);
         }
 
         .invitation-text {
@@ -121,7 +232,6 @@
             margin: 6px auto 0;
         }
 
-        /* Taymer Bölməsi */
         .timer-container {
             display: flex;
             justify-content: center;
@@ -149,7 +259,6 @@
             color: #777;
         }
 
-        /* Estetik Geyim Kodu (Dress Code) */
         .dress-code-container {
             display: flex;
             justify-content: space-around;
@@ -190,7 +299,6 @@
             color: #555;
         }
 
-        /* Form Hissəsi */
         .form-group {
             margin-bottom: 15px;
             text-align: left;
@@ -216,15 +324,6 @@
             background-color: #fafafa;
         }
 
-        .form-group input:focus, 
-        .form-group select:focus, 
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--accent-color);
-            background-color: #fff;
-        }
-
-        /* Düymələr */
         .btn-map {
             display: inline-flex;
             align-items: center;
@@ -273,11 +372,27 @@
 </head>
 <body>
 
-    <div class="invitation-card">
+    <!-- Zərf Ekranı -->
+    <div id="envelope-screen">
+        <div class="envelope">
+            <div class="wax-seal" onclick="openEnvelope()">N&L</div>
+        </div>
+        <div class="tap-text" onclick="openEnvelope()">açmaq üçün toxunun</div>
+    </div>
+
+    <!-- Səs Faylı (İstədiyiniz mp3 linkini bura yerləşdirə bilərsiniz) -->
+    <audio id="bg-music" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Dəvətnamə Kartı -->
+    <div class="invitation-card" id="main-card">
+        <div class="leaf-decoration leaf-top-left"></div>
+        <div class="leaf-decoration leaf-bottom-right"></div>
+
         <div class="subtitle">Xoş Günümüzə Dəvətlisiniz</div>
         
-        <!-- Bəy və Gəlin adları -->
-        <h1 class="couple-names">Nijat & Laman</h1>
+        <h1 class="couple-names">Nizami & Lətifə</h1>
         
         <p class="invitation-text">
             Sizi bu xüsusi və unudulmaz günümüzü bizimlə bölüşməyə dəvət edirik.
@@ -303,7 +418,7 @@
             <i class="fa-solid fa-map-location-dot"></i> Xəritədə Baxın
         </a>
 
-        <!-- Geri Sayım Taymeri -->
+        <!-- Taymer -->
         <div class="section-title">Toy Gününə Qalan Vaxt</div>
         <div class="timer-container">
             <div class="timer-block">
@@ -324,7 +439,7 @@
             </div>
         </div>
 
-        <!-- Estetik Geyim Kodu Bölməsi -->
+        <!-- Dress Code -->
         <div class="section-title">Geyim Kodu (Dress Code)</div>
         <div class="dress-code-container">
             <div class="dress-code-card">
@@ -343,7 +458,7 @@
             </div>
         </div>
 
-        <!-- Vahid RSVP + Təbrik Forması -->
+        <!-- RSVP Formu -->
         <div class="section-title">İştirak və Təbrik</div>
         <form id="rsvpForm">
             <div class="form-group">
@@ -376,13 +491,29 @@
 
             <button type="submit" class="btn-whatsapp">
                 <i class="fa-brands fa-whatsapp"></i>
-                Təsdiqlə və WhatsApp ilə Göndər
+                Təsdiqlə
             </button>
         </form>
     </div>
 
     <script>
-        // Toy Tarixi Taymeri (Tarixi ehtiyacınıza görə dəyişə bilərsiniz)
+        // Zərf açılışı və Musiqi
+        function openEnvelope() {
+            const envelopeScreen = document.getElementById('envelope-screen');
+            const mainCard = document.getElementById('main-card');
+            const audio = document.getElementById('bg-music');
+
+            audio.play().catch(error => console.log("Musiqi xətası:", error));
+
+            envelopeScreen.style.opacity = '0';
+            setTimeout(() => {
+                envelopeScreen.style.display = 'none';
+                mainCard.style.opacity = '1';
+                mainCard.style.transform = 'translateY(0)';
+            }, 800);
+        }
+
+        // Taymer
         const weddingDate = new Date("June 25, 2026 18:00:00").getTime();
 
         function updateTimer() {
@@ -404,12 +535,11 @@
         setInterval(updateTimer, 1000);
         updateTimer();
 
-        // WhatsApp-a Məlumat Göndərmə
+        // WhatsApp Göndərişi
         document.getElementById('rsvpForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
-            // WhatsApp Nömrənizi daxil edin (məs: 994501234567)
-            const phoneNumber = "994500000000";
+            const phoneNumber = "994500000000"; // Öz WhatsApp nömrəniz
 
             const fullName = document.getElementById('fullName').value;
             const attendance = document.getElementById('attendance').value;
